@@ -5,7 +5,7 @@ const { Router } = require('express');
 const router = Router();
 
 router.get("/",async(req,res)=>{
-    const getAll = await getAllGamesAPI(2)
+    const getAll = await getAllGamesAPI();
     try {
         res.status(200).send(getAll)
         
@@ -14,9 +14,8 @@ router.get("/",async(req,res)=>{
     }
 })
 
-router.get("/game",async(req,res)=>{
+router.get("/name",async(req,res)=>{
     const {name} = req.query;
-    console.log("name",name);
     const funcion = await getGamesByName(name);
     try {
         res.status(200).json(funcion);
@@ -25,15 +24,15 @@ router.get("/game",async(req,res)=>{
     }
 })
 
-// router.get("/:idVideogame",async(req,res)=>{
-//     try {
-//         const {idVideogame} = req.params
-//         const getBID = await getGameByID(idVideogame);
-//         res.status(200).json(getBID);
-//     } catch (error) {
-//         res.status(500).json(error.message);
-//     }    
-// })
+router.get("/:idVideogame",async(req,res)=>{
+    try {
+        const {idVideogame} = req.params
+        const getBID = await getGameByID(idVideogame);
+        res.status(200).json(getBID);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }    
+})
 
 
 module.exports = router

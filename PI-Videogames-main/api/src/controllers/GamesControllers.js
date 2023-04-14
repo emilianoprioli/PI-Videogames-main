@@ -53,51 +53,21 @@ const getAllGamesAPI = async () => {
     return arrayResults;
 }
 
-//! ARREGLAR EL TEMA DEL ID
+//! ID
 
 const getGameByID = (id) => {
-    if(typeof id === "number"){
-        return new Promise((resolve,reject)=>{
-            axios.get(`${API}/${id}?key=${APIKEY}`) 
-            .then(res=>{
-                try {
-                    resolve(res.data);
-                } catch (error) {
-                    reject(error.message);
-                }
-            })
-        })
+    if (isNaN(id)) {
+      throw new Error("id must be a valid number");
     }
-    throw new Error("id must be a number");
-}
+    
+    return axios.get(`${API}/${id}?key=${APIKEY}`)
+      .then(res => res.data)
+      .catch(error => {
+        throw new Error(error.message);
+      });
+  }
 
 //!*********************************************************************************************!
-
-// const getGamesByName = async (name) => {
-//     const array = [];
-//     let contador = 0;
-//     let contadorAux = 0;
-//     const get = await axios.get(`${API}?key=${APIKEY}&search=${name}`);
-//     await get.data.results.map((el)=>{
-//         const {id,name,description,released,background_image,rating,plataforms} = el
-//         if(contador <=15){
-//             contador++
-//             array.push({
-//                     cuenta:contadorAux++,
-//                     id: id,
-//                     name: name,
-//                     description: description,
-//                     released: released,
-//                     background_image: background_image,
-//                     rating: rating,
-//                     plataforms: plataforms,
-//                     createdInDB:false
-//             })
-//         }
-//         return;
-//     })
-//     return array;
-// }
 
 const getGamesByName = async (name) => {
     const array = [];
@@ -137,4 +107,5 @@ module.exports = {
     getAllGamesAPI,
     getGameByID,
     getGamesByName,
+    AUXgetAllGamesAPI
 }
