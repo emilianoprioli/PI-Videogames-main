@@ -7,8 +7,7 @@ const router = Router();
 router.get("/",async(req,res)=>{
     const getAll = await getAllGamesAPI();
     try {
-        res.status(200).send(getAll)
-        
+        res.status(200).json(getAll)
     } catch (error) {
         res.status(500).json(error.message);
     }

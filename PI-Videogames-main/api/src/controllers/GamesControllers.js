@@ -49,8 +49,7 @@ const getAllGamesAPI = async () => {
     })
         
     }
-    console.log("cuenta",contador);
-    return arrayResults;
+    return arrayResults.sort();
 }
 
 //! ID
