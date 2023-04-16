@@ -1,7 +1,8 @@
-import { GETALLGAMES } from "./actionTypes";
+import { GETALLGAMES,GETALLGENRES } from "./actionTypes";
 
 const initialState = {
     allGames : [],
+    allGenres : [],
 }
 
 
@@ -11,6 +12,12 @@ const reducer = (state = initialState,action) => {
             return{
                 ...state,
                 allGames:action.payload
+            }
+
+        case GETALLGENRES:
+            return{
+                ...state,
+                allGenres:action.payload
             }
 
         default:

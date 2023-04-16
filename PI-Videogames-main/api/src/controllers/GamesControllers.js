@@ -24,7 +24,6 @@ const AUXgetAllGamesAPI = async () => {
 
 const getAllGamesAPI = async () => {
     const array = await AUXgetAllGamesAPI() //! recibe todas las url
-    let contador = 0 //! cuenta que traiga los 100 juegos
     let aux,arrayResults = [];
 
     for (let i = 0; i < array.length; i++) { //! recorre todas las url
@@ -36,7 +35,6 @@ const getAllGamesAPI = async () => {
                 const {id,name,description,released,background_image,rating,plataforms} = el
 
                 arrayResults.push({ //! aca pushea al array de afuera
-                    cuenta:contador++,
                     id: id,
                     name: name,
                     description: description,
@@ -47,7 +45,6 @@ const getAllGamesAPI = async () => {
                     createdInDB:false
         })
     })
-        
     }
     return arrayResults.sort();
 }
