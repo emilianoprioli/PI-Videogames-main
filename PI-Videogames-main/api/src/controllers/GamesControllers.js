@@ -22,19 +22,15 @@ const AUXgetAllGamesAPI = async () => {
     return(array);
 };
 
-const getAllGamesAPI = async () => {
+const getAllGamesAPI = async (pag) => {
     const array = await AUXgetAllGamesAPI() //! recibe todas las url
-    let aux,arrayResults = [];
+  
+    let aux = await axios.get(array[pag]); 
 
-    for (let i = 0; i < array.length; i++) { //! recorre todas las url
-
-        aux = await axios.get(array[i]) //! le da al auxiliar de afuera la url en la pos. i 
-
-
-        await aux.data.results.map((el)=>{ //! retorna la info que queres
+       return await aux.data.results.map((el)=>{ //! retorna la info que queres
                 const {id,name,description,released,background_image,rating,plataforms} = el
-
-                arrayResults.push({ //! aca pushea al array de afuera
+                
+                return({ //! aca pushea al array de afuera
                     id: id,
                     name: name,
                     description: description,
@@ -45,8 +41,6 @@ const getAllGamesAPI = async () => {
                     createdInDB:false
         })
     })
-    }
-    return arrayResults.sort();
 }
 
 //! ID

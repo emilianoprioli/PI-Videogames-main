@@ -9,9 +9,11 @@ const HomePage = () => {
     let value
     const dispatch  = useDispatch();
     const {allGames} = useSelector(state => state);
+
     const HandlerChange = (event) => {
         value = event.target.value;
     }
+
 
     const enterSearch = (event) =>{
         if(event.key === "Enter"){
