@@ -1,14 +1,14 @@
 const { Router } = require('express');
-const {getAllGenres} = require("../controllers/GenreControllers");
+const {GenresDB} = require("../controllers/GamesDBController")
 const router = Router();
 
 
 router.get("/",async(req,res)=>{
-    const respuesta = await getAllGenres();
+    const genre = await GenresDB()
     try {
-        res.status(200).json(respuesta);
+        res.status(200).json(genre);
     } catch (error) {
-        res.status(500).json(error.message);    
+        res.status(500).json(error.message);
     }
 })
 

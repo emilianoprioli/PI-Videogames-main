@@ -8,17 +8,9 @@ const Card =  (props) => {
             const { id, name, background_image } = element;
             return (
 
-                <div className={style.container}>
-
-                    <div className={style.divInfo} key={id}>
-                        <h3>{name}</h3>
-                    </div>
-
-
-                    <div className={style.divImg}>
-                        <img className={style.Img} src={background_image} alt="Game img" />
-                    </div>
-
+                <div key={id} className={style.container}>
+                    <h3>{name}</h3>
+                    <img className={style.Img} src={background_image} alt="Game img" />
                 </div>
           );
         })}

@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       isUrl:true,
     },
     released:{
-      type:DataTypes.STRING,
+      type:DataTypes.DATE,
       allowNull:false,
     },
     rating:{

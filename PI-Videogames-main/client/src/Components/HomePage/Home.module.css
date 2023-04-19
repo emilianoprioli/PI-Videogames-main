@@ -1,0 +1,6 @@
+.games{
+    display: flex;
+    flex-wrap: wrap;
+    gap:5%;
+    outline: blue solid 4px;
+}

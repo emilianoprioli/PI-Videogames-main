@@ -81,17 +81,7 @@ const getGamesByName = async (name) => {
     return array;
   };
  
-// const getGameByIDDB =async () => {
-//     return await Videogame.findAll({
-//         include:{
-//             model:Genre,
-//             attributes:["name"],
-//             through:{
-//                 attributes:[],
-//             }
-//         }
-//     })
-// }
+
 
 module.exports = {
     getAllGamesAPI,

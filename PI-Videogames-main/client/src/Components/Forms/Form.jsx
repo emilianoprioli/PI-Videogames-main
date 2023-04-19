@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAllGenres } from '../../redux/actionTypes';
+import { GetAllGenres,findOrCreate } from '../../redux/actionTypes';
 import style from "./Form.module.css";
 
 const Form = () => {
@@ -9,6 +9,7 @@ const Form = () => {
     const { allGenres } = useSelector(state => state);
     const [genresLoaded, setGenresLoaded] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState([]);
+    const [hidden,SetHidden] = useState(true)
 
     useEffect(() => {
         dispatch(GetAllGenres());
@@ -44,8 +45,26 @@ const Form = () => {
         );
     }
 
+    const onSubmit = (event) => {
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        const formData = {
+            name: event.target.querySelector('input[name="name"]').value,
+            img: event.target.querySelector('input[name="img"]').value,
+            description: event.target.querySelector('input[name="description"]').value,
+            plataforms: event.target.querySelector('input[name="plataforms"]').value,
+            released: event.target.querySelector('input[name="released"]').value,
+            rating: event.target.querySelector('input[name="rating"]').value,
+            genres: Array.from(set),
+            createdInDB:true // Convertir el set en un array
+        };
+        console.log(formData);
+        dispatch(findOrCreate(formData)); // Enviar el objeto a través del dispatch
+    };
+
     return (
-        <form>
+        <div>
+            <div hidden={!hidden}>
+        <form onSubmit={onSubmit}>
             <label htmlFor="name">Game name:</label>
             <input type="text"  name="name" />
 
@@ -71,9 +90,31 @@ const Form = () => {
                 </div>
             )}
 
-            <button>Enviar formulario</button>
+            <button type='submit'>Crear Juego</button>
         </form>
+        </div>
+
+
+            <button onClick={()=>{
+               if (hidden) {
+                SetHidden(false);
+               }
+               else{
+                SetHidden(true);
+               }
+            }}>Eliminar Juego</button>
+ 
+
+
+        <div hidden={hidden}>
+                <form onSubmit={onSubmit}>
+                <label htmlFor="name">Game name:</label>
+                <input type="text"  name="name" />
+                </form>
+            </div>
+        </div>
     );
 }
 
 export default Form;
+
