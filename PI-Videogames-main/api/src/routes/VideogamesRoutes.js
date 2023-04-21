@@ -1,19 +1,28 @@
-
 const {getAllGamesAPI,getGameByID,getGamesByName} = require("../controllers/GamesControllers.js")
-const {GamesPost} = require("../controllers/GamesDBController.js")
+const {GamesPost, getAllGames} = require("../controllers/GamesDBController.js")
 const { Router } = require('express');
 
 const router = Router();
 
 //!traer aca la funcion findOrCreate de juegos en el arcgivo GamesDBController
+const getApiAndDB = async () => {
+    const CreateBDD = await GamesPost(req.query);
+    const getGamesDB = await getAllGames()
+    console.log("JJJJJJJJJJJJJJJJJJJJJJJ", getGamesDB);
+    return getGamesDB
+}
+
+
 router.post("/",async(req,res)=>{
-    const CreateBDD = await GamesPost(req.query)
+    const games = getApiAndDB()
+    console.log(games);
     try {
-        res.status(200).json(CreateBDD);
+        res.status(200).json(games);
     } catch (error) {
         res.status(500).json(error.message);
     }
 })
+
 
 
 //! /laurl (?query=) LOS PARETENSIS ES PARA DIFERENCIAR, LA QUERY VA DESP DEL ?
