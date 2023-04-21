@@ -19,10 +19,6 @@ const HomePage = () => {
         dispatch(getAllGames(value,setLoading))
     },[])
 
-    // const HandlerChange = (event) => {
-    //     value = event.target.value;
-    // }
-
     const pag = (event) => {
         scrollToTop()
         let id = event.target.id;
@@ -57,7 +53,6 @@ const HomePage = () => {
             </section>
             <section className={style.games}>
                 {loading?<h3>Loading...</h3>:<Card allGames={allGames}/>}
-                
             </section>
             <div>
                 <button onClick={pag} id='previus'>←Previus</button>

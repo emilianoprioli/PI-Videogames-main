@@ -39,6 +39,17 @@ router.get("/name",async(req,res)=>{
     }
 })
 
+router.get("/detail/:id",async(req,res)=>{
+    const {id} = req.params;
+    const game = await getGameByID(id);
+    try {
+        res.status(200).json(game);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+
+})
+
 router.get("/:idVideogame",async(req,res)=>{
     try {
         const {idVideogame} = req.params

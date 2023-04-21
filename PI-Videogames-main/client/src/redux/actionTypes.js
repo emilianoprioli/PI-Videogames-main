@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export const GETALLGAMES = "GETALLGAMES";
 export const GETALLGENRES = "GETALLGENRES";
-export const FINDORCREATE = "FINDORCREATE"
+export const FINDORCREATE = "FINDORCREATE";
+export const GETGAMEDETAIL = "GETGAMEDETAIL";
+export const CLEANDETAIL = "CLEANDETAIL";
 
 export const getAllGames =  (pag,evento) => {
         return async function(dispatch){
@@ -34,4 +36,21 @@ export const findOrCreate = ({name,description,genres,plataforms,img,released,ra
         console.log(post);
         dispatch({type:FINDORCREATE});
     }
+}
+
+export const getGameDetail = (id) => {
+    console.log(id);
+    return function(dispatch){
+        axios.get(`http://localhost:3001/videogames/detail/${id}`)
+        .then(res => res.data)
+        .then(data => {
+            dispatch({type:GETGAMEDETAIL ,payload:data})
+        })
+    }   
+}
+
+export const CleanDetail = () => {
+    return function(dispatch){
+        dispatch({type:CLEANDETAIL})
+    }   
 }
