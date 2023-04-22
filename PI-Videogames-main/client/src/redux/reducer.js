@@ -1,9 +1,10 @@
-import { GETALLGAMES,GETALLGENRES,FINDORCREATE,GETGAMEDETAIL,CLEANDETAIL } from "./actionTypes";
+import { GETALLGAMES,GETALLGENRES,FINDORCREATE,GETGAMEDETAIL,CLEANDETAIL,GETTEDBYNAME } from "./actionTypes";
 
 const initialState = {
     allGames : [],
     allGenres : [],
     createdGames:[],
+    gettedByName:[],
     gameIDdetail:null
 }
 
@@ -22,14 +23,22 @@ const reducer = (state = initialState,action) => {
                 allGenres:action.payload
             }
 
-            //! darle utilidad a esto
         case FINDORCREATE:
-            break
+            return{
+                ...state,
+                findedOrCreated:action.payload
+            }
 
         case GETGAMEDETAIL:
             return{
                 ...state,
                 gameIDdetail:action.payload
+            }
+
+        case GETTEDBYNAME:
+            return{
+                ...state,
+                gettedByName:[action.payload]
             }
 
         case CLEANDETAIL:

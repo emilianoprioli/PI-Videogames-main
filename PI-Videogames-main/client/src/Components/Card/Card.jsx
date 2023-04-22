@@ -3,7 +3,8 @@ import style from "./Card.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Card = (props) => {
-  const { allGames } = props;
+  const { allGames,gettedByName } = props;
+  //console.log(gettedByName);
   const navigate = useNavigate()
   const [cardsToShow, setCardsToShow] = useState(0);
 

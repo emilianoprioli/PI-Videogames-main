@@ -2,22 +2,25 @@
 //! maquetar todos los juegos en cada card (HACER LA CARD)
 //! HACER DETAIL DE CADA JUEGO
 import {useDispatch,useSelector} from 'react-redux';
-import { getAllGames } from "../../redux/actionTypes";
+import { getAllGames,getByName } from "../../redux/actionTypes";
 import Card from '../Card/Card';
 import { useEffect, useState } from 'react';
 import style from "./Home.module.css"
 import scrollToTop from '../../function/ScrollToMain';
 
 let value = 0;
+let inputValue
 
 const HomePage = () => {
     const dispatch  = useDispatch();
-    const {allGames} = useSelector(state => state);
+    const {allGames,gettedByName} = useSelector(state => state);
     const [loading,setLoading] = useState(false)
 
-    useEffect(()=>{
-        dispatch(getAllGames(value,setLoading))
-    },[])
+    
+    // useEffect(()=>{
+    //     value = 0;
+    //     dispatch(getAllGames(value,setLoading))
+    // },[])
 
     const pag = (event) => {
         scrollToTop()
@@ -41,15 +44,33 @@ const HomePage = () => {
 
     const enterSearch = (event) =>{
         if(event.key === "Enter"){
-            dispatch(getAllGames(value,setLoading));
+            dispatch(getByName(inputValue));
         }
     }
+
+    const inputHandler = (event) => {
+        inputValue = event.target.value
+        console.log(inputValue);
+    }
+
+    const Render = () => {
+        if (gettedByName) {
+            return(
+                <Card gettedByName={gettedByName}/>
+            )
+        }
+        else{
+            return(
+                <Card allGames={allGames}/>
+            )
+        }
+     }
     
     return(
         <main>
             <section>
-                <input onKeyDown={enterSearch} type="text" placeholder="Inserte el id"/>
-                <button onClick={()=>{getAllGames(value,setLoading)}}>Click here to search</button>
+                <input onChange={inputHandler} onKeyDown={enterSearch} type="text" placeholder="Inserte el name"/>
+                <button onClick={()=>dispatch(getByName(inputValue))}>Click here to search</button>
             </section>
             <section className={style.games}>
                 {loading?<h3>Loading...</h3>:<Card allGames={allGames}/>}
@@ -64,20 +85,3 @@ const HomePage = () => {
 }
 
 export default HomePage;
-
-
-// export const getAllGames = (pag) => {
-//     return function(dispatch){
-//         // Agregar acción SET_LOADING
-//         dispatch({type: SET_LOADING});
-
-//         axios.get(`http://localhost:3001/videogames/pag?pag=${pag}`)
-//         .then(res => res.data)
-//         .then(data => {
-//             // Ejecutar acción GET_ALL_GAMES para actualizar el estado de los juegos
-//             dispatch({type: GET_ALL_GAMES, payload: data});
-//             // Ejecutar acción SET_LOADING para ocultar el cartel de carga
-//             dispatch({type: SET_LOADING});
-//         })
-//     }
-// }

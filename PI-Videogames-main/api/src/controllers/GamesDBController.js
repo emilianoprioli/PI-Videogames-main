@@ -1,6 +1,25 @@
 const { Genre, Videogame } = require('../db');
 const { getAllGenres } = require("./GenreControllers");
+const { Op } = require ('sequelize');
 
+
+async function searchByName(name){
+  try{
+    const results = await Videogame?.findAll({
+    where: {
+      name: {
+        [Op.like]: `%${name}%`
+      }
+    }
+  });
+  return results;
+}catch(error) {
+  throw new Error(error.message);
+}
+}
+
+
+//* genre creator
 const GenresDB = async () => {
   const genres = await getAllGenres();
   const promises = genres.map((genre) => {
@@ -22,9 +41,10 @@ const GenresDB = async () => {
   return results;
 };
 
-const test = (genre) => {
-  console.log("genre que llega por props a la func test",genre);
-  const promises = genre?.map((genre) => {
+//!////////////////////////////////////////////////////////////////////////////////////////////////!
+//!esta funcion se fija en la base de datos de generos, cual genero tiene cada juego nuevo que creamos
+const genreFinder = async (genre) => {
+  const promises = await genre?.map((genre) => {
     return Genre.findOrCreate({
       where: {
         name: genre
@@ -34,13 +54,14 @@ const test = (genre) => {
   return Promise.all(promises);
 }
 
+
 const getAllGames = async () => {
   const promises = await Videogame?.findAll();
-  const promesa = Promise.all(promises)
+  const promesa = Promise.all(promises);
   return promesa;
 }
 
-
+//!////////////////////////////////////////////////////////////////////////////////////////////////!
 
 const GamesPost = async (props) => {
   const {name,description,genres,plataforms,image,released,rating,createdInDB} = props;
@@ -57,20 +78,21 @@ const GamesPost = async (props) => {
 }).then(async([Videogame, created]) => {
     if (created) {
         //console.log('Se creo un nuevo juego:', Videogame.toJSON());
-        const findedGenre = await test(genres.split(","))
-        const id = await findedGenre?.map((genre) => genre[0].dataValues.id)
+        //* se fija que generos tiene el juego
+        const findedGenre = await genreFinder(genres.split(","))
+        //*guarda los id de cada uno en un array 
+        const id = await findedGenre?.map((el) => el[0].dataValues.id)
+        console.log(id);
+        //* por cada genero, relaciona el id del juego con los generos en la base intermedia
         id?.map(async(el)=>await Videogame.addGenres(el))
-        // await Videogame.save()
+        await Videogame.save()
     } else {
-        //console.log('Se encontro el juego:', Videogame.toJSON());
+        console.log('Se encontro el juego:', Videogame.toJSON());
     }
     return Videogame;
 });
     return game;
 }
-
-
-
 
 
 // const Danger = (name) => {
@@ -85,28 +107,12 @@ const GamesPost = async (props) => {
 //   });
 // }
 
-
-// (async function(){
-//   const dbGames =  await Videogame.findAll({        
-//         include: [{
-//           model: GenresDB,
-//           attributes: ["name"],
-//           through: {
-//             attributes: []
-//           }
-//         }]
-//       }
-//   )
-//   console.log(dbGames); 
-// })()
-
-
-
-//! NECESITAMOS UNA FUNCION QUE TRAIGA LOS JUEGOS DE LA BASE DE DATOS, QUE SE FIJE POR ID, A QUE JUEGO PERTENECE CADA GENERO Y VICEVERSA, PARA RENDERIZARLO
-
 module.exports = {
   GenresDB,
   GamesPost,
   getAllGames,
+  searchByName
 };
+
+
 
