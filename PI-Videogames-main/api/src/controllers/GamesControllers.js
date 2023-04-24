@@ -79,6 +79,7 @@ const contador = async () => {
   const arrayDB = await getGamesByPK()
   const arrayAPI = await getAllGamesAPI();
   const arrayForSlice = arrayDB.concat(arrayAPI);
+  console.log("100 juegos",arrayDB);
   const arrayForReturn = [];
   for (let i = 0; i < arrayForSlice.length; i +=15) {
     arrayForReturn.push(arrayForSlice.slice(i, i + 15));

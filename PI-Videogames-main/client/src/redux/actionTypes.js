@@ -7,10 +7,10 @@ export const GETGAMEDETAIL = "GETGAMEDETAIL";
 export const CLEANDETAIL = "CLEANDETAIL";
 export const GETTEDBYNAME = "GETTEDBYNAME";
 
-export const getAllGames =  (evento) => {
+export const getAllGames =  (evento,filtros) => {
         return async function(dispatch){
             evento(true)
-            axios.get(`http://localhost:3001/videogames/home?`)
+            axios.get(`http://localhost:3001/videogames/home?filtros=${filtros}`)
             .then(res => res.data)
             .then(data => {
                 dispatch({type:GETALLGAMES,payload:data})
@@ -56,8 +56,7 @@ export const getGameDetail = (id) => {
 export const getByName = (name) => {
     console.log("action",typeof name);
     return async function(dispatch){
-      const response = await axios.get(`http://localhost:3001/videogames/name?name=counter`)
-      console.log(response.data);
+      const response = await axios.get(`http://localhost:3001/videogames/name?name=${name}`)
         dispatch({type:GETTEDBYNAME ,payload:response.data})
     }
 }

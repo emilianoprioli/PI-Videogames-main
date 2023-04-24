@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllGenres,findOrCreate } from '../../redux/actionTypes';
 import style from "./Form.module.css";
+const set = new Set();
 
 const Form = () => {
     const dispatch = useDispatch();
-    const set = new Set();
     const { allGenres,findedOrCreated } = useSelector(state => state);
     const [genresLoaded, setGenresLoaded] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState([]);
@@ -18,21 +18,21 @@ const Form = () => {
     }, [dispatch]);
 
     function valueCatcher(event) {
-      let value = event.target.value;
-      let target = event.target.options[value];
-    
-      if (target.getAttribute("data-selected") === "true") {
-        set.delete(event.target.value)
-        console.log(set);
-        target.style.backgroundColor = "";
-        target.setAttribute("data-selected", "false");
-      } else {
-        set.add(event.target.value)
-        console.log(set);
-        target.style.backgroundColor = "green";
-        target.setAttribute("data-selected", "true");
+        let value = event.target.value;
+        let target = event.target.options[value];
+      
+        if (target.getAttribute("data-selected") === "true") {
+            set.delete(event.target.value)
+          console.log(set);
+          target.style.backgroundColor = "";
+          target.setAttribute("data-selected", "false");
+        } else {
+            set.add(event.target.value)
+          console.log(set);
+          target.style.backgroundColor = "green";
+          target.setAttribute("data-selected", "true");
+        }
       }
-    }
 
     function MySelect(allgenres) {
         return (
