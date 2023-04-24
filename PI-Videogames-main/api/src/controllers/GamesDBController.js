@@ -2,7 +2,6 @@ const { Genre, Videogame } = require('../db');
 const { getAllGenres } = require("./GenreControllers");
 const { Op } = require ('sequelize');
 
-
 async function searchByName(name){
   try{
     const results = await Videogame?.findAll({
@@ -94,6 +93,41 @@ const GamesPost = async (props) => {
     return game;
 }
 
+//* retorna la tabla relacional en forma de array
+const getDB = async () => {
+  const getGamesDB = await getAllGames()
+  const promises = await getGamesDB.map((el)=>el.getGenres());
+  const genres = await Promise.all(promises);
+  return genres
+}
+
+const getGamesByPK = async () => {
+  //* pedimos la tabla relacional
+  const relationalTable = await getDB();
+  const gameWithGenre = [];
+  //* por cada dato de la tabla la recorremos
+  for (let i = 0; i < relationalTable.length; i++) {
+      const genresName = [];
+      let actualGameId
+      //*recorremos cada dato basandonos en id (cada juego) 
+      relationalTable[i].map((el)=>{
+          //*tomamos el id del juego para pedirlo despues
+          actualGameId = el.dataValues.videogames_genres.dataValues.videogameId;
+          //* y tomamos cada uno de sus generos
+          genresName.push(el.dataValues.name);
+      })
+      //* relacionamos a cada juego dentro de un obj con sus respectivo genero
+      const obj = {
+          genres : genresName,
+          restOfData : await Videogame.findByPk(actualGameId)
+      }
+      gameWithGenre.push(obj);
+  }
+  return gameWithGenre;
+}
+
+
+
 
 // const Danger = (name) => {
 //  Videogame.destroy({
@@ -111,7 +145,8 @@ module.exports = {
   GenresDB,
   GamesPost,
   getAllGames,
-  searchByName
+  searchByName,
+  getGamesByPK
 };
 
 

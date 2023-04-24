@@ -1,5 +1,4 @@
-const sequelize = require("sequelize")
-const {Videogame,Genre} = require("../db.js")
+const {getGamesByPK} = require("./GamesDBController");
 const axios = require("axios");
 require('dotenv').config();
 const {API,APIKEY} = process.env;
@@ -22,25 +21,67 @@ const AUXgetAllGamesAPI = async () => {
     return(array);
 };
 
-const getAllGamesAPI = async (pag) => {
-    const array = await AUXgetAllGamesAPI() //! recibe todas las url
-  
-    let aux = await axios.get(array[pag]); 
+// const getAllGamesAPI = async (pag) => {
+//     const array = await AUXgetAllGamesAPI() //! recibe todas las url
+//     let contador = 0;
+//     let aux = await axios.get(array[pag]); 
 
-       return await aux.data.results.map((el)=>{ //! retorna la info que queres
-                const {id,name,description,released,background_image,rating,plataforms} = el
+//        return await aux.data.results.map((el)=>{ //! retorna la info que queres
+//                 const {id,name,description,released,background_image,rating,plataforms} = el
                 
-                return({ //! aca pushea al array de afuera
-                    id: id,
-                    name: name,
-                    description: description,
-                    released: released,
-                    background_image: background_image,
-                    rating: rating,
-                    plataforms: plataforms,
-                    createdInDB:false
-        })
-    })
+//                 return({ //! aca pushea al array de afuera
+//                     id: id,
+//                     name: name,
+//                     description: description,
+//                     released: released,
+//                     background_image: background_image,
+//                     rating: rating,
+//                     plataforms: plataforms,
+//                     createdInDB:false
+//         })
+//     })
+// }
+
+const getAllGamesAPI = async () => {
+  const array = await AUXgetAllGamesAPI() //! recibe todas las url
+  let contador = 0 //! cuenta que traiga los 100 juegos
+  let aux,arrayResults = [];
+  
+
+  for (let i = 0; i < array.length; i++) { //! recorre todas las url
+
+      aux = await axios.get(array[i]) //! le da al auxiliar de afuera la url en la pos. i 
+
+            await aux.data.results.map((el)=>{ //! retorna la info que queres
+              const {id,name,description,released,background_image,rating,plataforms} = el
+              
+              arrayResults.push({
+                cuenta:contador++, //! aca pushea al array de afuera
+                id: id,
+                name: name,
+                description: description,
+                released: released,
+                background_image: background_image,
+                rating: rating,
+                plataforms: plataforms,
+                createdInDB:false
+              })   
+  })
+      
+  }
+  console.log("cuenta",contador);
+  return arrayResults;
+}
+
+const contador = async () => {
+  const arrayDB = await getGamesByPK()
+  const arrayAPI = await getAllGamesAPI();
+  const arrayForSlice = arrayDB.concat(arrayAPI);
+  const arrayForReturn = [];
+  for (let i = 0; i < arrayForSlice.length; i +=15) {
+    arrayForReturn.push(arrayForSlice.slice(i, i + 15));
+  }
+  return arrayForReturn;
 }
 
 //! ID
@@ -87,5 +128,6 @@ module.exports = {
     getAllGamesAPI,
     getGameByID,
     getGamesByName,
-    AUXgetAllGamesAPI
+    AUXgetAllGamesAPI,
+    contador
 }
