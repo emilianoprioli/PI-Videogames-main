@@ -64,34 +64,42 @@ const getAllGames = async () => {
 
 const GamesPost = async (props) => {
   const {name,description,genres,plataforms,image,released,rating,createdInDB} = props;
-  const game = await Videogame.findOrCreate({
-    where: {
-        name: name,
-        description: description,
-        plataforms: [plataforms], //! del front viene como string
-        image: image,
-        released: new Date(released),
-        rating: rating,
-        createdInDB: createdInDB
-    }
-}).then(async([Videogame, created]) => {
-    if (created) {
-        //console.log('Se creo un nuevo juego:', Videogame.toJSON());
-        //* se fija que generos tiene el juego
-        const findedGenre = await genreFinder(genres.split(","))
-        //*guarda los id de cada uno en un array 
-        const id = await findedGenre?.map((el) => el[0].dataValues.id)
-        console.log(id);
-        //* por cada genero, relaciona el id del juego con los generos en la base intermedia
-        id?.map(async(el)=>await Videogame.addGenres(el))
-        await Videogame.save()
-    } else {
-        console.log('Se encontro el juego:', Videogame.toJSON());
-    }
-    return Videogame;
-});
-    return game;
-}
+  if (name && description && genres && plataforms && image && released && rating) {
+    const game = await Videogame.findOrCreate({
+      where: {
+          name: name,
+          description: description,
+          plataforms: [plataforms], //! del front viene como string
+          image: image,
+          released: new Date(released),
+          rating: rating,
+          createdInDB: createdInDB
+      }
+  }).then(async([Videogame, created]) => {
+      if (created) {
+          //console.log('Se creo un nuevo juego:', Videogame.toJSON());
+          //* se fija que generos tiene el juego
+          const findedGenre = await genreFinder(genres.split(","))
+          //*guarda los id de cada uno en un array 
+          const id = await findedGenre?.map((el) => el[0].dataValues.id)
+          console.log(id);
+          //* por cada genero, relaciona el id del juego con los generos en la base intermedia
+          id?.map(async(el)=>await Videogame.addGenres(el))
+          await Videogame.save()
+      } else {
+          console.log('Se encontro el juego:', Videogame.toJSON());
+      }
+      return Videogame;
+  })
+  .catch((error) => error.message)
+      return game;
+  }
+  
+  else{
+    throw new Error("must contain all data");
+  }
+  }
+  
 
 //* retorna la tabla relacional en forma de array
 const getDB = async () => {

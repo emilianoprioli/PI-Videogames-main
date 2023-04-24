@@ -12,11 +12,9 @@ router.post("/",async(req,res)=>{
     try {
         res.status(200).json(CreateBDD);
     } catch (error) {
-        res.status(500).json(error.message);
+        res.status(500).json(error);
     }
 })
-
-
 
 //! /laurl (?query=) LOS PARETENSIS ES PARA DIFERENCIAR, LA QUERY VA DESP DEL ?
 //! este trae todo al home
@@ -45,6 +43,7 @@ router.get("/name",async(req,res)=>{
 router.get("/detail/:id",async(req,res)=>{
     const {id} = req.params;
     const game = await getGameByID(id);
+    console.log("game",game);
     try {
         res.status(200).json(game);
     } catch (error) {

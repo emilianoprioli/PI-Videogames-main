@@ -1,4 +1,5 @@
 const {getGamesByPK} = require("./GamesDBController");
+const { Genre, Videogame } = require('../db');
 const axios = require("axios");
 require('dotenv').config();
 const {API,APIKEY} = process.env;
@@ -42,6 +43,7 @@ const AUXgetAllGamesAPI = async () => {
 //     })
 // }
 
+
 const getAllGamesAPI = async () => {
   const array = await AUXgetAllGamesAPI() //! recibe todas las url
   let contador = 0 //! cuenta que traiga los 100 juegos
@@ -84,13 +86,43 @@ const contador = async () => {
   return arrayForReturn;
 }
 
+
+
 //! ID
 
-const getGameByID = (id) => {
+
+
+const getDB = async (id) => {
+  const getGameDB = await Videogame?.findByPk(id);
+  const promises = await getGameDB.getGenres();
+  const genres = await Promise.all(promises);
+  return genres
+}
+
+const getGameByPK = async (id) => {
+  //* pedimos la tabla relacional
+  const relationalTable = await getDB(id);
+  const gameWithGenre = [];
+      const genresName = [];
+      relationalTable.map((el)=>{
+          //* y tomamos cada uno de sus generos
+          genresName.push(el.dataValues.name);
+      })
+      //* relacionamos a cada juego dentro de un obj con sus respectivo genero
+      const obj = {
+          genres : genresName,
+          restOfData : await Videogame.findByPk(id)
+      }
+      gameWithGenre.push(obj);
+  
+  return gameWithGenre;
+}
+
+const getGameByID = async (id) => {
+  //! isNaN trata de convertir lo que le pases a numero, si no se puede da true, si podria ser un number da false;
     if (isNaN(id)) {
-      throw new Error("id must be a valid number");
+      return await getGameByPK(id)    
     }
-    
     return axios.get(`${API}/${id}?key=${APIKEY}`)
       .then(res => res.data)
       .catch(error => {

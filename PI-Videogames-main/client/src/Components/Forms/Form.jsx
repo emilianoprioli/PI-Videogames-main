@@ -6,9 +6,10 @@ import style from "./Form.module.css";
 const Form = () => {
     const dispatch = useDispatch();
     const set = new Set();
-    const { allGenres } = useSelector(state => state);
+    const { allGenres,findedOrCreated } = useSelector(state => state);
     const [genresLoaded, setGenresLoaded] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState([]);
+    const [ratingValue, setRatingValue] = useState('');
     const [hidden,SetHidden] = useState(true)
 
     useEffect(() => {
@@ -47,26 +48,63 @@ const Form = () => {
 
     const onSubmit = (event) => {
         event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        const name = event.target.querySelector('input[name="name"]').value;
+        const img = event.target.querySelector('input[name="img"]').value;
+        const description = event.target.querySelector('input[name="description"]').value;
+        const plataforms = event.target.querySelector('input[name="plataforms"]').value;
+        const released = event.target.querySelector('input[name="released"]').value;
+        const rating = event.target.querySelector('input[name="rating"]').value;
+    
+        if (!name || !img || !description || !plataforms || !released || !rating) {
+            // Si alguno de los campos está vacío, se muestra un mensaje de error
+            alert('Todos los campos son obligatorios');
+            return;
+        }
+    
         const formData = {
-            name: event.target.querySelector('input[name="name"]').value,
-            img: event.target.querySelector('input[name="img"]').value,
-            description: event.target.querySelector('input[name="description"]').value,
-            plataforms: event.target.querySelector('input[name="plataforms"]').value,
-            released: event.target.querySelector('input[name="released"]').value,
-            rating: event.target.querySelector('input[name="rating"]').value,
+            name,
+            img,
+            description,
+            plataforms,
+            released,
+            rating,
             genres: Array.from(set),
-            createdInDB:true // Convertir el set en un array
+            createdInDB: true, // Convertir el set en un array
         };
         console.log(formData);
         dispatch(findOrCreate(formData)); // Enviar el objeto a través del dispatch
     };
 
+    const rangeValue = (event) => {
+        setRatingValue(event.target.value);
+    }
+
+    const validate = (event) => {
+        const regex = /^[a-zA-Z0-9\s._-]+$/;
+            const input = event.target.value;
+            if (!regex.test(input)) {
+                event.target.setCustomValidity("El nombre del juego solo puede contener letras, números y espacios");
+            } else {
+                event.target.setCustomValidity("");
+            }
+    }
+
+    const checker = (event) => {
+        let div = event.target.id
+        if (findedOrCreated?.statusText) {
+            div.style.backgroundColor = "green";
+        }
+        else{
+            div.style.backgroundColor = "";
+        }
+    }
+
     return (
         <div>
             <div hidden={!hidden}>
-        <form onSubmit={onSubmit}>
-            <label htmlFor="name">Game name:</label>
-            <input type="text"  name="name" />
+        <form className={style.formContainer} onSubmit={onSubmit}>
+        <label htmlFor="name">Game name:</label>
+        <input type="text" name="name" onInput={validate} />
 
             <label htmlFor="img">Game img:</label>
             <input type="url"  name="img" />
@@ -81,7 +119,8 @@ const Form = () => {
             <input type="date"  name="released" />
 
             <label htmlFor="rating">Game rating:</label>
-            <input type="range"  name="rating" />
+            <input onInput={rangeValue} type="range" name="rating" min="0" max="5" step="0.1" />
+            { ratingValue && <p>{ratingValue}</p>}
 
             {genresLoaded && (
                 <div className={style.divGenres}>
@@ -107,6 +146,11 @@ const Form = () => {
                 event.target.textContent = "Eliminar Juego"
                }
             }}>Eliminar Juego</button>
+
+            <div id='div' onChange={checker}>
+                {findedOrCreated ? <p>Juego: {findedOrCreated?.data?.name}</p> : <p></p> }
+                <p>Estado: {findedOrCreated?.statusText}</p>
+            </div>
  
 
 

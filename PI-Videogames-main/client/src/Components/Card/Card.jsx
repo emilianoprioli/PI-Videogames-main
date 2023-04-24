@@ -3,7 +3,7 @@ import style from "./Card.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Card = (props) => {
-  const { allGames,gettedByName } = props;
+  const { allGames } = props;
   const navigate = useNavigate()
   const [cardsToShow, setCardsToShow] = useState(0);
 
@@ -23,11 +23,11 @@ const Card = (props) => {
   return (
     <>
       {allGames?.slice(0, cardsToShow).map((element) => {
-        const { id, name, background_image } = element;
+        const { id, name, background_image,restOfData } = element;
         return (
           <div key={id} className={style.container}>
-            <h3 onClick={()=>Click(id)}>{name}</h3>
-            <img className={style.Img} src={background_image} alt="Game img" />
+            <h3 onClick={()=>Click(restOfData? restOfData.id :id)}>{restOfData? restOfData.name :name}</h3>
+            <img className={style.Img} src={restOfData? restOfData.image :background_image} alt="Game img" />
           </div>
         );
       })}

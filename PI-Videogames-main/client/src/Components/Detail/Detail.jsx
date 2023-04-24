@@ -8,7 +8,6 @@ const Detail = () => {
     const dispatch = useDispatch()
     const {id} = useParams()
     const {gameIDdetail} = useSelector(state=>state)
-    console.log(gameIDdetail);
     
     useEffect(()=>{
         console.log("id detail",id);
@@ -24,10 +23,33 @@ const Detail = () => {
 
     const {name, genres, platforms,released, rating,dominant_color,description_raw,background_image } =  gameIDdetail
 
-    return (
+    if (isNaN(id)) {
+      const {image,name,plataforms,rating,released,description,id} = gameIDdetail[0].restOfData
+      const genres = gameIDdetail[0].genres.join(", ")
+      console.log(genres);
+      return(
+        <div key={id}>
+          <h1>{name}</h1>
+          {image && <img src={image} alt={name} />}
+          <div>
+          <h4>Géneros:</h4>
+          <h5>{genres}</h5>
+          <h4>Descripción</h4>
+          <h5>{description}</h5>
+          <h4>Released:</h4>
+          {released && <h5>{released}</h5>}
+          {rating && <h3>Rating: {rating}</h3>}
+          {plataforms && <h3>Platforms: {plataforms?.join(", ")}</h3>}
+          
+          </div>
+        </div>
+      )
+    }
+    else{
+      return (
         <div key={id}>
           <h2>{name}</h2>
-          <h3>{genres?.map((genre) => genre.name).join(", ")}</h3>
+          <h3>{genres?.name.join(", ")}</h3>
           {description_raw && <p>{description_raw}</p>}
           {background_image && <img src={background_image} alt={name} />}
           {released && <h3>Released: {released}</h3>}
@@ -38,6 +60,7 @@ const Detail = () => {
           {id && <h3>ID: {id}</h3>}
         </div>
       );
+    }
 }
 
 export default Detail;

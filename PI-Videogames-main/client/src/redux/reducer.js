@@ -5,6 +5,7 @@ const initialState = {
     allGenres : [],
     createdGames:[],
     gettedByName:[],
+    findedOrCreated:[],
     gameIDdetail:null
 }
 
@@ -38,7 +39,7 @@ const reducer = (state = initialState,action) => {
         case GETTEDBYNAME:
             return{
                 ...state,
-                gettedByName:[action.payload]
+                gettedByName:action.payload
             }
 
         case CLEANDETAIL:
