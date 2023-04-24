@@ -95,12 +95,16 @@ const Form = () => {
         </div>
 
 
-            <button onClick={()=>{
+            <button onClick={(event)=>{
+                console.log(event);
                if (hidden) {
                 SetHidden(false);
+                event.target.textContent = "Crear Juego"
+                console.log("tocaste borrar");
                }
                else{
                 SetHidden(true);
+                event.target.textContent = "Eliminar Juego"
                }
             }}>Eliminar Juego</button>
  

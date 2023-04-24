@@ -7,11 +7,9 @@ import Form from './Components/Forms/Form';
 import Detail from './Components/Detail/Detail';
 
 function App() {
-  const {pathname} = useLocation()
 
   return (
     <div className="App">
-      {pathname === "/" && <h1>Henry Videogames</h1>}
       <Routes>
         <Route path='/' element={<LandingPage/>}/>
         <Route path='/home' element={<HomePage/>}/>

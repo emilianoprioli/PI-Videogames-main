@@ -17,10 +17,10 @@ const HomePage = () => {
     const [loading,setLoading] = useState(false)
 
     
-    // useEffect(()=>{
-    //     value = 0;
-    //     dispatch(getAllGames(value,setLoading))
-    // },[])
+    useEffect(()=>{
+        value = 0;
+        dispatch(getAllGames(value,setLoading))
+    },[])
 
     const pag = (event) => {
         scrollToTop()
@@ -67,13 +67,13 @@ const HomePage = () => {
      }
     
     return(
-        <main>
+        <main className={style.main}>
             <section>
                 <input onChange={inputHandler} onKeyDown={enterSearch} type="text" placeholder="Inserte el name"/>
                 <button onClick={()=>dispatch(getByName(inputValue))}>Click here to search</button>
             </section>
             <section className={style.games}>
-                {loading?<h3>Loading...</h3>:<Card allGames={allGames}/>}
+                {loading?<h3 className={style.loading}>Loading...</h3>:<Card allGames={allGames}/>}
             </section>
             <div>
                 <button onClick={pag} id='previus'>←Previus</button>

@@ -54,29 +54,29 @@ router.post("/",async(req,res)=>{
 
 //! /laurl (?query=) LOS PARETENSIS ES PARA DIFERENCIAR, LA QUERY VA DESP DEL ?
 //! este trae todo al home
-// router.get("/home",async(req,res)=>{
-//     const {pag} = req.query
-//     console.log(pag);
-//     //* juegos de la base
-//     const gamesDB = await getGamesByPK()
-//     //* juegos de la api
-//     const gamesApi = await getAllGamesAPI(pag);
-//     if (pag <= 0 && gamesDB.length <= 15) {
-//         const DBandApiConcated = await gamesDB.concat(gamesApi);
-//         try {
-//             res.status(200).json(DBandApiConcated)
-//         } catch (error) {
-//             res.status(500).json(error.message);
-//         }
-//     }
-//     else{
-//         try {
-//             res.status(200).json(gamesApi)
-//         } catch (error) {
-//             res.status(500).json(error.message);
-//         }
-//     }
-// })
+router.get("/home",async(req,res)=>{
+    const {pag} = req.query
+    console.log(pag);
+    //* juegos de la base
+    const gamesDB = await getGamesByPK()
+    //* juegos de la api
+    const gamesApi = await getAllGamesAPI(pag);
+    if (pag <= 0 && gamesDB.length <= 15) {
+        const DBandApiConcated = await gamesDB.concat(gamesApi);
+        try {
+            res.status(200).json(DBandApiConcated)
+        } catch (error) {
+            res.status(500).json(error.message);
+        }
+    }
+    else{
+        try {
+            res.status(200).json(gamesApi)
+        } catch (error) {
+            res.status(500).json(error.message);
+        }
+    }
+})
 
 router.get("/name",async(req,res)=>{
     const {name} = req.query;

@@ -1,0 +1,65 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    outline: red solid 3px;
+    height: 100vh;
+    width: 100vw;
+    background: url("https://i.blogs.es/37814d/metacritic/1366_2000.jpg");
+    overflow: hidden;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+.divButtons{
+    display: flex;
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 0px auto;
+    gap: 10px;
+    background: transparent;
+    color: hsl(240,30,10);
+    font: 700 14px/1 Copperplate, Papyrus, fantasy;
+    letter-spacing: 0.125em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.button{
+    background: none;
+    border: 2px solid;
+    border-bottom-width: 4px;
+    font: inherit;
+    letter-spacing: inherit;
+    margin: 1em;
+    padding: 1em 2em;
+    text-transform: inherit;
+    color: #414e4d;
+    background-color: #efefef;
+    transition: color 0.5s;
+}
+
+.button:hover{
+    animation: halftone 1s forwards;
+    background: radial-gradient(circle, #414e4d 0.2em, transparent 0.25em) 0 0 / 1.25em 1.25em,radial-gradient(circle, #414e4d 0.2em, transparent 0.25em) 6.25em 6.25em / 1.25em 1.25em;
+    transition: color 1s;
+    color: #fff;
+  }
+
+  @keyframes halftone {
+    100% {
+      background-size: 2.375em 2.375em, 0.1em 0.1em;
+    }
+  }
+
+.h1{
+    margin-top: 4%;
+    backdrop-filter: blur(3px) saturate(300%);
+    font-family: Ink Free;
+    color: #414e4d;
+    font-weight:900;
+}
