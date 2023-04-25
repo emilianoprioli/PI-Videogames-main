@@ -75,9 +75,7 @@ const getAllGamesAPI = async () => {
   return arrayResults;
 }
 
-const contador = async () => {
-  const arrayDB = await getGamesByPK()
-  const arrayAPI = await getAllGamesAPI();
+const contador = async (arrayDB,arrayAPI) => {
   const arrayForSlice = arrayDB.concat(arrayAPI);
   console.log("100 juegos",arrayDB);
   const arrayForReturn = [];

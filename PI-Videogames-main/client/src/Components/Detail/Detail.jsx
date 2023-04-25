@@ -46,10 +46,13 @@ const Detail = () => {
       )
     }
     else{
+      const generos = genres?.map((genre)=>{
+        return genre.name
+      })
       return (
         <div key={id}>
           <h2>{name}</h2>
-          <h3>{genres?.name.join(", ")}</h3>
+          <h3>{generos.join(", ")}</h3>
           {description_raw && <p>{description_raw}</p>}
           {background_image && <img src={background_image} alt={name} />}
           {released && <h3>Released: {released}</h3>}

@@ -6,6 +6,7 @@ export const FINDORCREATE = "FINDORCREATE";
 export const GETGAMEDETAIL = "GETGAMEDETAIL";
 export const CLEANDETAIL = "CLEANDETAIL";
 export const GETTEDBYNAME = "GETTEDBYNAME";
+export const FILTERS = "FILTERS";
 
 export const getAllGames =  (evento,filtros) => {
         return async function(dispatch){
@@ -53,11 +54,13 @@ export const getGameDetail = (id) => {
     }   
 }
 
-export const getByName = (name) => {
+export const getByName = (name,evento) => {
     console.log("action",typeof name);
     return async function(dispatch){
+        evento(true)
       const response = await axios.get(`http://localhost:3001/videogames/name?name=${name}`)
         dispatch({type:GETTEDBYNAME ,payload:response.data})
+        evento(false)
     }
 }
 
@@ -65,4 +68,10 @@ export const CleanDetail = () => {
     return function(dispatch){
         dispatch({type:CLEANDETAIL})
     }   
+}
+
+export const Filters = (filter) => {
+    return function (dispatch){
+        dispatch({type:FILTERS,payload:filter});
+    }
 }

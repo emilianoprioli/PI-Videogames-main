@@ -5,6 +5,7 @@ import LandingPage from './Components/LandingPage/LandingPage';
 import HomePage from './Components/HomePage/HomePage';
 import Form from './Components/Forms/Form';
 import Detail from './Components/Detail/Detail';
+import SearchByName from './Components/SearchByName/SearchByName';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='/home' element={<HomePage/>}/>
         <Route path='/form' element={<Form/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
+        <Route path='/name' element={<SearchByName/>}/>
       </Routes>
     </div>
   );

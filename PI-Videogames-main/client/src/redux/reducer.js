@@ -6,7 +6,8 @@ const initialState = {
     createdGames:[],
     gettedByName:[],
     findedOrCreated:[],
-    gameIDdetail:null
+    gameIDdetail:null,
+    filters:[]
 }
 
 

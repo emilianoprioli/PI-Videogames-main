@@ -89,15 +89,6 @@ const Form = () => {
             }
     }
 
-    const checker = (event) => {
-        let div = event.target.id
-        if (findedOrCreated?.statusText) {
-            div.style.backgroundColor = "green";
-        }
-        else{
-            div.style.backgroundColor = "";
-        }
-    }
 
     return (
         <div>
@@ -147,7 +138,7 @@ const Form = () => {
                }
             }}>Eliminar Juego</button>
 
-            <div id='div' onChange={checker}>
+            <div id='div'>
                 {findedOrCreated ? <p>Juego: {findedOrCreated?.data?.name}</p> : <p></p> }
                 <p>Estado: {findedOrCreated?.statusText}</p>
             </div>
