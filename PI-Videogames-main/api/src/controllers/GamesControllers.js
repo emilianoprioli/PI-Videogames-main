@@ -71,13 +71,11 @@ const getAllGamesAPI = async () => {
   })
       
   }
-  console.log("cuenta",contador);
   return arrayResults;
 }
 
 const contador = async (arrayDB,arrayAPI) => {
   const arrayForSlice = arrayDB.concat(arrayAPI);
-  console.log("100 juegos",arrayDB);
   const arrayForReturn = [];
   for (let i = 0; i < arrayForSlice.length; i +=15) {
     arrayForReturn.push(arrayForSlice.slice(i, i + 15));

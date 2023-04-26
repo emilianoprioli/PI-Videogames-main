@@ -7,11 +7,56 @@ export const GETGAMEDETAIL = "GETGAMEDETAIL";
 export const CLEANDETAIL = "CLEANDETAIL";
 export const GETTEDBYNAME = "GETTEDBYNAME";
 export const FILTERS = "FILTERS";
+export const API = "API";
+export const DB = "DB";
+export const AZ = "AZ";
+export const ZA = "ZA";
+export const RATINGAS = "RATINGAS";
+export const RATINGDES = "RATINGDES";
 
-export const getAllGames =  (evento,filtros) => {
+export const APIHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:API})
+    }
+}
+
+export const DBHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:DB})
+    }
+}
+
+export const AZHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:AZ})
+    }
+}
+
+export const ZAHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:ZA})
+
+    }
+}
+
+export const RATINGASHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:RATINGAS})
+
+    }
+}
+export const RATINGDESHandler = (event) => {
+    return async function(dispatch){
+        dispatch({type:RATINGDES})
+
+    }
+}
+
+
+export const getAllGames =  (evento) => {
         return async function(dispatch){
             evento(true)
-            axios.get(`http://localhost:3001/videogames/home?filtros=${filtros}`)
+            axios.get(`http://localhost:3001/videogames/home`)
             .then(res => res.data)
             .then(data => {
                 dispatch({type:GETALLGAMES,payload:data})
@@ -68,10 +113,4 @@ export const CleanDetail = () => {
     return function(dispatch){
         dispatch({type:CLEANDETAIL})
     }   
-}
-
-export const Filters = (filter) => {
-    return function (dispatch){
-        dispatch({type:FILTERS,payload:filter});
-    }
 }

@@ -1,3 +1,6 @@
+//! va a tener que traer el get /videogames
+//! maquetar todos los juegos en cada card (HACER LA CARD)
+//! HACER DETAIL DE CADA JUEGO
 import {useDispatch,useSelector} from 'react-redux';
 import { getAllGames } from "../../redux/actionTypes";
 import Card from '../Card/Card';
@@ -15,13 +18,15 @@ const setHome = new Set()
 const HomePage = () => {
     const dispatch  = useDispatch();
     const navigate = useNavigate()
-    const {allGames} = useSelector(state => state);
+    const {allGames,filters} = useSelector(state => state);
     const [loading,setLoading] = useState(false)
 
+    console.log(allGames);
     useEffect(()=>{
         indice = 0
         dispatch(getAllGames(setLoading,setHome))
-    },[setHome])
+        console.log(filters);
+    },[filters])
 
     const pag = (event) => {
         scrollToTop()
@@ -48,32 +53,11 @@ const HomePage = () => {
         inputValue = event.target.value
     }
 
-    // function valueCatcher(event) {
-    //     let value = event.target.value;
-    //     let target = event.target.options[value];
-      
-    //     if (target.getAttribute("data-selected") === "true") {
-    //         setHome.delete(event.target.value)
-    //       console.log(setHome);
-    //       target.style.backgroundColor = "";
-    //       target.setAttribute("data-selected", "false");
-    //     } else {
-    //         setHome.add(event.target.value)
-    //       console.log(setHome);
-    //       target.style.backgroundColor = "green";
-    //       target.setAttribute("data-selected", "true");
-    //     }
-    //   }
     return(
         <main className={style.main}>
             <section>
                 <input onChange={inputHandler} onKeyDown={enterSearch} type="text" placeholder="Inserte el name"/>
                 <button onClick={enterSearch}>Click here to search</button>
-                <select multiple  size={2} name="filtros" id="filtros">
-                    <option value="db">db</option>
-                    <option value="api">api</option>
-
-                </select>
             </section>
             <section className={style.games}>
                 <Filters></Filters>

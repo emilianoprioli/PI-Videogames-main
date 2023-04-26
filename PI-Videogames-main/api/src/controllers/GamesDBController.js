@@ -82,7 +82,6 @@ const GamesPost = async (props) => {
           const findedGenre = await genreFinder(genres.split(","))
           //*guarda los id de cada uno en un array 
           const id = await findedGenre?.map((el) => el[0].dataValues.id)
-          console.log(id);
           //* por cada genero, relaciona el id del juego con los generos en la base intermedia
           id?.map(async(el)=>await Videogame.addGenres(el))
           await Videogame.save()

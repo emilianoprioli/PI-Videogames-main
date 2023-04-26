@@ -18,11 +18,12 @@ router.post("/",async(req,res)=>{
 
 //! /laurl (?query=) LOS PARETENSIS ES PARA DIFERENCIAR, LA QUERY VA DESP DEL ?
 //! este trae todo al home
-router.get("/home",async(req,res)=>{
+router.get("/home", async (req, res) => {
+    try {
+    // devolver la respuesta correspondiente
     const arrayDB = await getGamesByPK()
     const arrayAPI = await getAllGamesAPI();
     const test = await contador(arrayDB,arrayAPI)
-    try {
         res.status(200).json(test)
         } catch (error) {
         res.status(500).json(error.message);

@@ -19,32 +19,29 @@ const Card = (props) => {
     navigate(`/detail/${id}`)
   }
 
-
+  
   if(gettedByName){
     return (
       <>
-        {gettedByName?.map((element) => {
-            const { id,name,image,createdInDB}  = element;
-            if(createdInDB){
-              return (
-                <div key={id} className={style.container}>
-                  <h3 onClick={()=>Click(id)}>{name}</h3>
-                  <img className={style.Img} src={image} alt="Game img" />
-                </div>
-              );
-            }
-            else{
-              const { id, name, background_image } = element;
-              return (
-                <div key={id} className={style.container}>
-                  <h3 onClick={()=>Click(id)}>{name}</h3>
-                  <img className={style.Img} src={background_image} alt="Game img" />
-                </div>
-              );
-            }
-           
-          })
-        }
+{gettedByName?.map((element) => {
+  const { id, name, image, createdInDB } = element;
+  if (createdInDB) {
+    return (
+      <div key={`created-${id}`} className={style.container}>
+        <h3 onClick={() => Click(id)}>{name}</h3>
+        <img className={style.Img} src={image} alt="Game img" />
+      </div>
+    );
+  } else {
+    const { id, name, background_image } = element;
+    return (
+      <div key={`api-${id}`} className={style.container}>
+        <h3 onClick={() => Click(id)}>{name}</h3>
+        <img className={style.Img} src={background_image} alt="Game img" />
+      </div>
+    );
+  }
+})}
       </>
     );
   }
